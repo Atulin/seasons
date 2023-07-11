@@ -28,7 +28,6 @@ export interface Medum {
   episodes: any
   duration?: number
   genres: string[]
-  siteUrl: string
   studios: Studios
 }
 
