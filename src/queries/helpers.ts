@@ -14,4 +14,5 @@ export const monthToSeason = (month: number): Season => {
   if ([ 3,  4,  5].includes(month)) return 'SPRING';
   if ([ 6,  7,  8].includes(month)) return 'SUMMER';
   if ([ 9, 10, 11].includes(month)) return 'FALL';
+  return 'WINTER';
 }
