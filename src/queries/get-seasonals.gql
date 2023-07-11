@@ -1,0 +1,36 @@
+query($season: MediaSeason, $year: Int, $page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+        pageInfo {
+            currentPage,
+            hasNextPage,
+            total,
+            lastPage
+        },
+        media(season: $season, seasonYear: $year, sort: POPULARITY_DESC) {
+            id,
+            siteUrl,
+            title {
+                english,
+                native,
+                romaji
+            },
+            description,
+            coverImage {
+                large
+            },
+            startDate {
+                day, month, year
+            },
+            episodes,
+            duration,
+            genres,
+            siteUrl,
+            studios {
+                nodes {
+                    name,
+                    siteUrl
+                }
+            }
+        }
+    }
+}
