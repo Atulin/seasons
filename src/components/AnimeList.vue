@@ -127,6 +127,12 @@ await getData();
 </template>
 
 <style scoped lang="scss">
+.loading, .empty {
+    padding: 1rem;
+    text-align: center;
+    font-size: 200%;
+}
+
 .selectors {
     display: flex;
     align-items: center;

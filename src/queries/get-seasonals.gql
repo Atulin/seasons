@@ -25,6 +25,7 @@ query($season: MediaSeason, $year: Int, $page: Int, $perPage: Int) {
             duration,
             genres,
             siteUrl,
+            isAdult,
             studios {
                 nodes {
                     name,

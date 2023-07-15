@@ -29,6 +29,7 @@ export interface Medum {
   duration?: number
   genres: string[]
   studios: Studios
+  isAdult: boolean
 }
 
 export interface Title {
