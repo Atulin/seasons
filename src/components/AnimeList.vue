@@ -2,7 +2,7 @@
 import query from '@/queries/get-seasonals.gql?raw';
 import type { Season, Variables } from '@/queries/types/variables';
 import type { Medum, QueryResult } from '@/queries/types/query-result';
-import { ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import AnimeItem from '@/components/AnimeItem.vue';
 import { monthToSeason } from '@/queries/helpers';
 
@@ -13,20 +13,50 @@ const now = new Date();
 const media = ref<Medum[]>([]);
 const year = ref<number>(now.getFullYear());
 const season = ref<Season>(monthToSeason(now.getMonth() + 1));
+const page = ref<number>(1);
 
 const loading = ref(false);
 watch([year, season], async () => {
     loading.value = true;
     media.value = [];
+    page.value = 1;
     await getData();
     loading.value = false;
 });
+
+const container = ref<HTMLElement | null>(null);
+let loadingMore = false;
+const tolerance = 1000;
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
+
+const handleScroll = async () => {
+    const cont = container.value;
+    if (cont === null) return;
+    if (loadingMore) return;
+
+    const bottom = cont.getBoundingClientRect().bottom;
+    const height = window.innerHeight;
+
+    if (bottom - height < tolerance) {
+        loadingMore = true;
+        page.value++;
+        await getData();
+        loadingMore = false;
+    }
+};
 
 const getData = async () => {
     const variables: Variables = {
         season: season.value,
         year: year.value,
-        page: 1,
+        page: page.value,
         perPage: 15
     };
 
@@ -63,27 +93,27 @@ await getData();
         <div class="season-selector">
             <label class="spring">
                 <input name="season" type="radio" value="SPRING" v-model="season" />
-                <h2>Spring</h2>
+                <span>Spring</span>
             </label>
 
             <label class="summer">
                 <input name="season" type="radio" value="SUMMER" v-model="season" />
-                <h2>Summer</h2>
+                <span>Summer</span>
             </label>
 
             <label class="fall">
                 <input name="season" type="radio" value="FALL" v-model="season" />
-                <h2>Fall</h2>
+                <span>Fall</span>
             </label>
 
             <label class="winter">
                 <input name="season" type="radio" value="WINTER" v-model="season" />
-                <h2>Winter</h2>
+                <span>Winter</span>
             </label>
         </div>
     </div>
 
-    <div class="list" v-if="media.length > 0">
+    <div class="list" v-if="media.length > 0" ref="container">
         <template v-for="anime in media" :key="anime.id">
             <AnimeItem :data="anime" />
         </template>
@@ -149,16 +179,18 @@ await getData();
         cursor: pointer;
         display: block;
 
-        h2 {
+        span {
+            display: block;
             padding: 1rem;
             border-radius: 500px;
             transition: all 100ms ease-in-out;
             min-width: 10rem;
             text-align: center;
+            font-size: 200%;
             background-color: var(--color-background-mute);
         }
 
-        input[name='season']:checked + h2 {
+        input[name='season']:checked + span {
             background-color: var(--color-accent);
             color: var(--color-background);
         }
