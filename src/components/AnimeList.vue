@@ -85,9 +85,9 @@ await getData();
 <template>
     <div class="selectors">
         <div class="year-selector">
-            <button class="prev" @click="() => year--">&lt;</button>
+            <button class="prev" @click="() => year--">&#129172;</button>
             <h2 class="year">{{ year }}</h2>
-            <button class="next" @click="() => year++">&gt;</button>
+            <button class="next" @click="() => year++">&#129174;</button>
         </div>
 
         <div class="season-selector">
