@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Studios } from "@/queries/types/query-result";
+import type { Studios } from "@/queries/get-seasonals/query-result";
 import { computed } from "vue";
 
 const props = defineProps<{ studios: Studios }>();

@@ -1,0 +1,21 @@
+query($showId: Int) {
+    Media(id: $showId) {
+        characters(sort: RELEVANCE) {
+            nodes {
+                id,
+                image {
+                    medium,
+                    large
+                },
+                name {
+                    first,
+                    middle,
+                    last,
+                    full,
+                    native
+                },
+                siteUrl
+            }
+        }
+    }
+}

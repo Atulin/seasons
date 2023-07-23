@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Medum } from "@/queries/types/query-result";
+import type { Medum } from "@/queries/get-seasonals/query-result";
 import { computed } from "vue";
 import { startDateFormat } from "@/queries/helpers";
 

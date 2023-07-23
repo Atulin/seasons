@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Title } from '@/queries/types/query-result';
+import type { Title } from '@/queries/get-seasonals/query-result';
 
 const props = defineProps<{ titles: Title; link: string }>();
 </script>

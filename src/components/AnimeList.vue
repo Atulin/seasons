@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import query from '@/queries/get-seasonals.gql?raw';
-import type { Season, Variables } from '@/queries/types/variables';
-import type { Medum, QueryResult } from '@/queries/types/query-result';
+import query from '@/queries/get-seasonals/get-seasonals.gql?raw';
+import type { Season, Variables } from '@/queries/get-seasonals/variables';
+import type { Medum, QueryResult } from '@/queries/get-seasonals/query-result';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import AnimeItem from '@/components/AnimeItem.vue';
 import { monthToSeason } from '@/queries/helpers';

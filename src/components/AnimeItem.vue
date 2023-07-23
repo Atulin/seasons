@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Medum } from '@/queries/types/query-result';
+import type { Medum } from '@/queries/get-seasonals/query-result';
 import TitleDisplay from '@/components/AnimeItem/TitleDisplay.vue';
 import GenreDisplay from '@/components/AnimeItem/GenreDisplay.vue';
 import StudioDisplay from '@/components/AnimeItem/StudioDisplay.vue';
