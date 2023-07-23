@@ -1,8 +1,8 @@
 <script setup lang='ts'>
 import query from '../queries/get-characters/get-characters.gql?raw'
 import { useRoute } from 'vue-router';
-import { Variables } from '@/queries/get-characters/variables';
-import { QueryResult } from '@/queries/get-characters/query-result';
+import type { Variables } from '@/queries/get-characters/variables';
+import type { QueryResult } from '@/queries/get-characters/query-result';
 import { onMounted, ref } from 'vue';
 import type { Character } from '@/queries/get-characters/query-result';
 
@@ -12,7 +12,7 @@ const route = useRoute();
 const id = parseInt(route.params.id as string);
 
 const characters = ref<Character[]>([]);
-const list = ref<HTMLElement>(null);
+const list = ref<HTMLElement|null>(null);
 
 const getData = async (id: number) => {
     const variables: Variables = {
@@ -41,7 +41,7 @@ const getData = async (id: number) => {
 
 onMounted(async () => {
     await getData(id);
-    list.value.scrollIntoView({ behavior: 'smooth' });
+    list.value?.scrollIntoView({ behavior: 'smooth' });
 })
 </script>
 
@@ -74,7 +74,7 @@ onMounted(async () => {
 
         &:hover {
             .name {
-                opacity: 0%;
+                opacity: 0;
             }
         }
 

@@ -1,20 +1,18 @@
-<script setup lang='ts'>
-import query from '../queries/search-shows/search-shows.gql?raw'
-import { ref, withDirectives } from 'vue';
-import type { Medum } from '@/queries/search-shows/query-result';
+<script setup lang="ts">
+import query from '../queries/search-shows/search-shows.gql?raw';
+import { ref } from 'vue';
+import type { Medum, QueryResult } from '@/queries/search-shows/query-result';
 import debounce from '@/helpers/debounce';
-import { Variables } from '@/queries/search-shows/variables';
-import { QueryResult } from '@/queries/search-shows/query-result';
+import type { Variables } from '@/queries/search-shows/variables';
 import CharactersDisplay from '@/components/CharactersDisplay.vue';
 
 const url = 'https://graphql.anilist.co';
 
 const media = ref<Medum[]>([]);
-const search = ref<string>("");
-const showId = ref<number|null>(null);
+const search = ref<string>('');
+const showId = ref<number | null>(null);
 
 const getData = debounce(async () => {
-
     const variables: Variables = {
         search: search.value
     };
@@ -34,38 +32,42 @@ const getData = debounce(async () => {
     const res = await fetch(url, options);
     const data: QueryResult = await res.json();
 
-    const newMedia = data?.data?.Page?.media ?? [];
-    media.value = newMedia;
-
+    media.value = data?.data?.Page?.media ?? [];
 }, 800);
 
 const changeSearch = (e: Event) => {
-    console.log('search')
+    console.log('search');
     search.value = (e.currentTarget as HTMLInputElement).value;
     getData();
-}
-
+};
 </script>
 
 <template>
-    <CharactersDisplay v-if='showId' :char-id='showId'/>
-    <div id='searchbar'>
-        <input type='search' name='search' placeholder='Show title' @input='(e) => changeSearch(e)'>
+    <CharactersDisplay v-if="showId" :char-id="showId" />
+    <div id="searchbar">
+        <input
+            type="search"
+            name="search"
+            placeholder="Show title"
+            @input="(e) => changeSearch(e)"
+        />
     </div>
-    <ul id='shows'>
-        <li v-for='show in media' :key='show.id'>
-            <router-link class='link' :to='`characters/${show.id}`'>{{show.title.romaji}}</router-link>
+    <ul id="shows">
+        <li v-for="show in media" :key="show.id">
+            <router-link class="link" :to="`characters/${show.id}`">{{
+                show.title.romaji
+            }}</router-link>
         </li>
     </ul>
 </template>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 #searchbar {
     padding: 1rem 1rem 0;
 
     input {
-        padding: .5rem 1rem;
-        border-radius: .5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
         font-size: 1.2rem;
         background-color: var(--color-background-mute);
         color: var(--color-text);
@@ -94,12 +96,12 @@ const changeSearch = (e: Event) => {
             display: block;
             width: 100%;
             cursor: pointer;
-            padding: .5rem 1rem;
+            padding: 0.5rem 1rem;
             background-color: var(--color-background-mute);
             color: var(--color-text);
             border: 1px solid var(--vt-c-text-light-2);
             font-size: 1.05rem;
-            letter-spacing: .1rem;
+            letter-spacing: 0.1rem;
             text-align: left;
 
             &:hover {
