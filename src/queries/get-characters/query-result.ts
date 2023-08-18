@@ -8,6 +8,25 @@ export interface Data {
 
 export interface Medum {
    characters: Characters;
+   episodes: number;
+   /**
+    * Episode length in minutes
+    */
+   duration: number;
+   nextAiringEpisode: AiringEpisode | null;
+   title: Title;
+}
+
+export interface Title {
+   romaji: string
+}
+
+
+export interface AiringEpisode {
+   /**
+    * Seconds until next episode
+    */
+   timeUntilAiring: number;
 }
 
 export interface Characters {

@@ -14,7 +14,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: '/', component: AnimeList },
-        { path: '/characters/:id', component: CharactersDisplay },
+        { path: '/characters/:id/:title?', component: CharactersDisplay },
         { path: '/search', component: CharacterList }
     ]
 });

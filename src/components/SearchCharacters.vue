@@ -54,7 +54,7 @@ const changeSearch = (e: Event) => {
     </div>
     <ul id="shows">
         <li v-for="show in media" :key="show.id">
-            <router-link class="link" :to="`characters/${show.id}`">{{
+            <router-link class="link" :to="`characters/${show.id}/${show.title.romaji}`">{{
                 show.title.romaji
             }}</router-link>
         </li>

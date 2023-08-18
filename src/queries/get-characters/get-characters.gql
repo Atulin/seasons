@@ -1,5 +1,13 @@
 query($showId: Int) {
     Media(id: $showId) {
+        title {
+            romaji
+        },
+        episodes,
+        nextAiringEpisode {
+            timeUntilAiring
+        },
+        duration,
         characters(sort: RELEVANCE) {
             nodes {
                 id,
