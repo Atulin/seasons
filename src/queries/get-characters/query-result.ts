@@ -17,6 +17,11 @@ export interface Medum {
    title: Title;
 }
 
+export interface PageInfo {
+   currentPage: number;
+   hasNextPage: boolean;
+}
+
 export interface Title {
    romaji: string
 }
@@ -31,6 +36,7 @@ export interface AiringEpisode {
 
 export interface Characters {
    nodes: Character[];
+   pageInfo: PageInfo;
 }
 
 export interface Character {

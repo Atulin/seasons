@@ -1,4 +1,4 @@
-query($showId: Int) {
+query($showId: Int, $page: Int) {
     Media(id: $showId) {
         title {
             romaji
@@ -8,7 +8,11 @@ query($showId: Int) {
             timeUntilAiring
         },
         duration,
-        characters(sort: RELEVANCE) {
+        characters(sort: ROLE, page: $page, perPage: 100) {
+            pageInfo {
+                currentPage,
+                hasNextPage
+            },
             nodes {
                 id,
                 image {
@@ -22,7 +26,7 @@ query($showId: Int) {
                     full,
                     native
                 },
-                siteUrl
+                siteUrl,
             }
         }
     }

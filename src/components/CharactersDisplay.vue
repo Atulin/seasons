@@ -2,7 +2,7 @@
 import query from '../queries/get-characters/get-characters.gql?raw';
 import { useRoute } from 'vue-router';
 import type { Variables } from '@/queries/get-characters/variables';
-import type { Character, QueryResult } from '@/queries/get-characters/query-result';
+import type { Character, PageInfo, QueryResult } from '@/queries/get-characters/query-result';
 import { onMounted, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -23,9 +23,15 @@ const details = ref<{
 const characters = ref<Character[]>([]);
 const list = ref<HTMLElement | null>(null);
 
-const getData = async (id: number) => {
+const pagination = ref<PageInfo>({
+    currentPage: 0,
+    hasNextPage: true
+});
+
+const getData = async (id: number, page: number) => {
     const variables: Variables = {
-        showId: id
+        showId: id,
+        page: page
     };
 
     const options = {
@@ -47,19 +53,27 @@ const getData = async (id: number) => {
 
     const show = data.data.Media;
 
-    characters.value = show.characters.nodes;
+    characters.value = [...characters.value, ...show.characters.nodes];
     details.value = {
         title: show.title.romaji,
         duration: show.duration,
         untilNext: show.nextAiringEpisode === null ? null : dayjs().add(show.nextAiringEpisode.timeUntilAiring, 'second'),
         episodes: show.episodes
     };
+
+    pagination.value = data.data.Media.characters.pageInfo;
+
+    console.log(pagination.value)
 };
 
 onMounted(async () => {
-    await getData(id);
+    do {
+        await getData(id, pagination.value.currentPage + 1);
+    } while (pagination.value.hasNextPage);
     list.value?.scrollIntoView({ behavior: 'smooth' });
 });
+
+
 </script>
 
 <template>
@@ -77,9 +91,10 @@ onMounted(async () => {
             rel="noreferrer noopener"
             target="_blank"
             class="character"
-            v-for="char in characters"
+            v-for="(char, index) in characters"
             :key="char.id"
         >
+            <span class='index'>{{index + 1}}</span>
             <img :src="char.image.medium" :alt="char.name.full" />
             <div class="name">
                 <span class="first">{{ char.name.first }}</span>
@@ -127,7 +142,7 @@ $multiplier: 0.8;
         color: var(--color-text);
 
         &:hover {
-            .name {
+            .name, .index {
                 opacity: 0;
             }
         }
@@ -136,6 +151,21 @@ $multiplier: 0.8;
             height: 100%;
             width: 100%;
             object-fit: cover;
+        }
+
+        .index {
+            position: absolute;
+            top: 0;
+            left: 5px;
+            font-size: .75rem;
+            text-shadow: 1px 0 black,
+                         0 1px black,
+                         -1px 0 black,
+                         0 -1px black,
+                         0 0 1px black,
+                         0 0 2px black;
+            opacity: 100%;
+            transition: opacity 150ms ease-in-out;
         }
 
         .name {

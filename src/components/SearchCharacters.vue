@@ -51,14 +51,14 @@ const changeSearch = (e: Event) => {
             placeholder="Show title"
             @input="(e) => changeSearch(e)"
         />
+        <ul id="shows">
+            <li v-for="show in media" :key="show.id">
+                <router-link class="link" :to="`characters/${show.id}/${show.title.romaji}`">{{
+                        show.title.romaji
+                    }}</router-link>
+            </li>
+        </ul>
     </div>
-    <ul id="shows">
-        <li v-for="show in media" :key="show.id">
-            <router-link class="link" :to="`characters/${show.id}/${show.title.romaji}`">{{
-                show.title.romaji
-            }}</router-link>
-        </li>
-    </ul>
 </template>
 
 <style scoped lang="scss">
@@ -72,6 +72,7 @@ const changeSearch = (e: Event) => {
         background-color: var(--color-background-mute);
         color: var(--color-text);
         border: 2px solid var(--vt-c-text-light-2);
+        width: 100%;
 
         &:focus {
             border-color: var(--color-text);
@@ -83,7 +84,29 @@ const changeSearch = (e: Event) => {
     display: flex;
     flex-direction: column;
     width: min-content;
-    padding: 0 1rem 1rem;
+    margin-top: -1px;
+    position: relative;
+
+    //$corner-size: 20px;
+    //&:after {
+    //    content: '';
+    //    position: absolute;
+    //    top: 1px;
+    //    right: $corner-size * -1 + 1;
+    //    height: $corner-size;
+    //    width: $corner-size;
+    //    background-image: radial-gradient(circle 100px at 100% 100%, transparent $corner-size, var(--vt-c-text-light-2) $corner-size + 1, var(--color-background-mute) $corner-size + 3);
+    //}
+    //&:before {
+    //    content: '';
+    //    position: absolute;
+    //    top: 1px;
+    //    left: $corner-size * -1 + 1;
+    //    height: $corner-size;
+    //    width: $corner-size;
+    //    background-image: radial-gradient(circle 100px at 100% 100%, transparent $corner-size, var(--vt-c-text-light-2) $corner-size + 1, var(--color-background-mute) $corner-size + 3);
+    //    transform: scaleX(-100%);
+    //}
 
     li {
         list-style: none;
