@@ -1,9 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang='ts'>
+</script>
 
 <template>
     <header>
         <nav class="nav">
             <router-link class="nav-item" to="/">Seasons</router-link>
+            <router-link class="nav-item" to="/schedule">Schedule</router-link>
             <router-link class="nav-item" to="/search">Search</router-link>
         </nav>
     </header>

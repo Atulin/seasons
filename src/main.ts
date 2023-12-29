@@ -7,6 +7,7 @@ import App from './App.vue';
 import AnimeList from '@/components/AnimeList.vue';
 import CharacterList from '@/components/SearchCharacters.vue';
 import CharactersDisplay from '@/components/CharactersDisplay.vue';
+import ScheduleDisplay from '@/components/ScheduleDisplay.vue'
 
 const app = createApp(App);
 
@@ -15,7 +16,8 @@ const router = createRouter({
     routes: [
         { path: '/', component: AnimeList },
         { path: '/characters/:id/:title?', component: CharactersDisplay },
-        { path: '/search', component: CharacterList }
+        { path: '/search', component: CharacterList },
+        { path: '/schedule', component: ScheduleDisplay}
     ]
 });
 

@@ -1,0 +1,34 @@
+query($season: MediaSeason, $year: Int, $page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+        pageInfo {
+            currentPage,
+            hasNextPage,
+            total,
+            lastPage
+        },
+        media(season: $season, seasonYear: $year, sort: START_DATE) {
+            id,
+            format,
+            title {
+                english,
+                romaji
+            },
+            startDate {
+                day,
+                month,
+                year
+            },
+            nextAiringEpisode {
+                airingAt,
+                episode,
+                timeUntilAiring
+            },
+            coverImage {
+                color,
+                medium
+            },
+            duration,
+            siteUrl
+        }
+    }
+}
