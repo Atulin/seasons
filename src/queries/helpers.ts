@@ -1,5 +1,5 @@
 import type { StartDate } from "@/queries/get-seasonals/query-result";
-import type { Season } from "@/queries/get-seasonals/variables";
+import type { Season } from '@/queries/common-types';
 
 export const startDateFormat = (date: StartDate): string => {
   const day = date.day?.toString().padStart(2, '0') ?? '??';

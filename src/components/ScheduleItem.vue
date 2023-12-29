@@ -37,7 +37,7 @@ const anime = computed(() => {
     <div class="schedule-item">
         <div class="title" >
             <FormatDisplay :format="anime.format" />
-            <span class="english" v-if="anime.english?.length > 0 && english">{{ anime.english }}</span>
+            <span class="english" v-if="(anime.english?.length ?? 0) > 0 && english">{{ anime.english }}</span>
             <span class="romaji" v-else>{{ anime.romaji }}</span>
         </div>
         <span class="airing" v-if="anime.nextEpisode">
