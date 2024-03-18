@@ -5,6 +5,7 @@ import GenreDisplay from '@/components/AnimeItem/GenreDisplay.vue';
 import StudioDisplay from '@/components/AnimeItem/StudioDisplay.vue';
 import DetailsDisplay from '@/components/AnimeItem/DetailsDisplay.vue';
 import { computed, ref } from 'vue';
+import TypeRibbon from '@/components/AnimeItem/TypeRibbon.vue';
 
 const props = defineProps<{ data: Medum }>();
 
@@ -32,13 +33,14 @@ const getBlur = computed(() => adult.value && blurred.value);
             <div class="description" v-html="data.description"></div>
             <StudioDisplay class="studios" :studios="data.studios" />
             <DetailsDisplay class="details" :show="data" />
+
         </div>
+        <TypeRibbon :type='data.format' :offset='data.isAdult' />
     </div>
 </template>
 
 <style scoped lang="scss">
 .content {
-    position: relative;
     display: grid;
     grid:
         'cover   titles' auto

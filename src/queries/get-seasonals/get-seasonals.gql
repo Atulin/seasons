@@ -9,6 +9,7 @@ query($season: MediaSeason, $year: Int, $page: Int, $perPage: Int) {
         media(season: $season, seasonYear: $year, sort: POPULARITY_DESC) {
             id,
             siteUrl,
+            format,
             title {
                 english,
                 native,
