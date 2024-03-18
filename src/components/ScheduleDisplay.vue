@@ -3,10 +3,9 @@ import query from '@/queries/get-schedule/get-schedule.gql?raw'
 import type { Variables } from '@/queries/get-schedule/variables';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { monthToSeason } from '@/queries/helpers';
-import type { Medum, QueryResult, StartDate } from '@/queries/get-schedule/query-result';
+import type { Medum, QueryResult } from '@/queries/get-schedule/query-result';
 import SeasonSelector from '@/components/Partials/SeasonSelector.vue';
 import type { Season } from '@/queries/common-types';
-import FormatDisplay from '@/components/Partials/FormatDisplay.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import ScheduleItem from '@/components/ScheduleItem.vue';
@@ -62,7 +61,7 @@ const getData = async () => {
     const res = await fetch(url, options);
     const data: QueryResult = await res.json();
 
-    if (data.data.Page.pageInfo.hasNextPage === false) {
+    if (!data.data.Page.pageInfo.hasNextPage) {
         window.removeEventListener('scroll', handleScroll)
     }
 

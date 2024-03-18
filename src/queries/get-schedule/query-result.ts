@@ -20,7 +20,7 @@ export interface Medum {
     nextAiringEpisode: NextAiringEpisode | null;
     coverImage: CoverImage;
     duration: number | null;
-    siteURL: string;
+    siteUrl: string;
     format?: MediaFormat;
 }
 

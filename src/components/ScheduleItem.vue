@@ -35,7 +35,7 @@ const computedAnime = computed(() => {
 <template>
     <div class="schedule-item">
         <div class="title" >
-            <a target='_blank' :href='JSON.parse(JSON.stringify(anime)).siteUrl'> <!-- BUG: It just won't work otherwise, what the fuck -->
+            <a target='_blank' :href='anime.siteUrl'>
                 <span class="english" v-if="(computedAnime.english?.length ?? 0) > 0 && english">{{ computedAnime.english}}</span>
                 <span class="romaji" v-else>{{ computedAnime.romaji }}</span>
             </a>
