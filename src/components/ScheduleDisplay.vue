@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import query from '@/queries/get-schedule/get-schedule.gql?raw'
 import type { Variables } from '@/queries/get-schedule/variables';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { monthToSeason } from '@/queries/helpers';
 import type { Medum, QueryResult, StartDate } from '@/queries/get-schedule/query-result';
 import SeasonSelector from '@/components/Partials/SeasonSelector.vue';
@@ -18,6 +18,10 @@ const now = new Date();
 dayjs.extend(relativeTime);
 
 const language = useLanguage();
+
+const container = ref<HTMLElement | null>(null);
+let loadingMore = false;
+const tolerance = 1000;
 
 const media = ref<Medum[]>([]);
 const year = ref<number>(now.getFullYear());
@@ -58,10 +62,38 @@ const getData = async () => {
     const res = await fetch(url, options);
     const data: QueryResult = await res.json();
 
+    if (data.data.Page.pageInfo.hasNextPage === false) {
+        window.removeEventListener('scroll', handleScroll)
+    }
+
     const newMedia = data?.data?.Page?.media ?? [];
 
     media.value = [...media.value, ...newMedia];
 }
+
+const handleScroll = async () => {
+    const cont = container.value;
+    if (cont === null) return;
+    if (loadingMore) return;
+
+    const bottom = cont.getBoundingClientRect().bottom;
+    const height = window.innerHeight;
+
+    if (bottom - height < tolerance) {
+        loadingMore = true;
+        page.value++;
+        await getData();
+        loadingMore = false;
+    }
+};
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
 
 const toggleLanguage = () => {
     console.log(`Language ${language.english}`)
@@ -76,8 +108,8 @@ await getData();
 
     <h2>Schedule for {{season}} {{year}}</h2>
 
-    <div class='list' v-if='media.length > 0'>
-        <ScheduleItem  v-for='anime in media' :key='anime.id' :anime='anime' />
+    <div class='list' v-if='media.length > 0' ref='container'>
+        <ScheduleItem v-for='anime in media' :key='anime.id' :anime='anime' />
     </div>
     <div class="loading" v-else-if="loading">
         <h3>Loading...</h3>

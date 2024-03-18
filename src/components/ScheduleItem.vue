@@ -14,7 +14,7 @@ language.$subscribe((_, state) => {
     english.value = state.english;
 })
 
-const anime = computed(() => {
+const computedAnime = computed(() => {
     const p = props.anime;
     const start = dayjs()
         .year(p.startDate.year)
@@ -28,7 +28,6 @@ const anime = computed(() => {
         start: p.startDate,
         startFormatted: start.format('DD MMMM YYYY'),
         startHuman: start.fromNow(),
-        format: p.format
     };
 });
 </script>
@@ -36,14 +35,16 @@ const anime = computed(() => {
 <template>
     <div class="schedule-item">
         <div class="title" >
+            <a target='_blank' :href='JSON.parse(JSON.stringify(anime)).siteUrl'> <!-- BUG: It just won't work otherwise, what the fuck -->
+                <span class="english" v-if="(computedAnime.english?.length ?? 0) > 0 && english">{{ computedAnime.english}}</span>
+                <span class="romaji" v-else>{{ computedAnime.romaji }}</span>
+            </a>
             <FormatDisplay :format="anime.format" />
-            <span class="english" v-if="(anime.english?.length ?? 0) > 0 && english">{{ anime.english }}</span>
-            <span class="romaji" v-else>{{ anime.romaji }}</span>
         </div>
-        <span class="airing" v-if="anime.nextEpisode">
-            Episode {{ anime.nextEpisode?.episode }} airs in {{ anime.nextEpisodeHuman }}
+        <span class="airing" v-if="anime.nextAiringEpisode">
+            Episode {{ computedAnime.nextEpisode?.episode }} airs in {{ computedAnime.nextEpisodeHuman }}
         </span>
-        <span class="starts" v-else>Starts {{ anime.startFormatted }} ({{ anime.startHuman }})</span>
+        <span class="starts" v-else>Starts {{ computedAnime.startFormatted }} ({{ computedAnime.startHuman }})</span>
     </div>
 </template>
 
@@ -61,6 +62,15 @@ const anime = computed(() => {
         flex-wrap: wrap;
         font-size: 110%;
         font-weight: bold;
+
+        a {
+            color: var(--color-text);
+
+            &:hover {
+                opacity: 90%;
+                text-decoration: underline;
+            }
+        }
     }
 }
 </style>

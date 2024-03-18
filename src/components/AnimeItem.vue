@@ -41,6 +41,7 @@ const getBlur = computed(() => adult.value && blurred.value);
 
 <style scoped lang="scss">
 .content {
+    position: relative;
     display: grid;
     grid:
         'cover   titles' auto

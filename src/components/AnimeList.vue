@@ -81,6 +81,10 @@ const getData = async () => {
     const res = await fetch(url, options);
     const data: QueryResult = await res.json();
 
+    if (data.data.Page.pageInfo.hasNextPage === false) {
+        window.removeEventListener('scroll', handleScroll)
+    }
+
     const newMedia = data?.data?.Page?.media ?? [];
     media.value = [...media.value, ...newMedia];
 };

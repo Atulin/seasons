@@ -1,16 +1,16 @@
 <script setup lang='ts'>
 import type { MediaFormat } from '@/queries/common-types';
 
-defineProps<{format: MediaFormat}>();
+defineProps<{format: MediaFormat|undefined}>();
 </script>
 
 <template>
-    <div class='format' :class='format'>{{format}}</div>
+    <div class='format' :class='format ?? "NONE"'>{{format?.replace('_', ' ') ?? '???'}}</div>
 </template>
 
 <style scoped lang='scss'>
 .format {
-    padding: 3px;
+    padding: 3px .5rem;
     border-radius: 3px;
     font-size: 70%;
     font-weight: 600;
@@ -51,5 +51,8 @@ defineProps<{format: MediaFormat}>();
 .TV_SHORT {
     background-color: cornflowerblue;
     color: black;
+}
+.NONE {
+    background-color: #717171;
 }
 </style>

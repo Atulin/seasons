@@ -21,7 +21,7 @@ export interface Medum {
     coverImage: CoverImage;
     duration: number | null;
     siteURL: string;
-    format: MediaFormat;
+    format?: MediaFormat;
 }
 
 export interface CoverImage {
