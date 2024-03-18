@@ -54,5 +54,6 @@ export interface Studios {
 
 export interface Node {
   name: string,
-  siteUrl: string
+  siteUrl: string,
+  isAnimationStudio: boolean
 }

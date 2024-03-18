@@ -7,6 +7,7 @@ import AnimeItem from '@/components/AnimeItem.vue';
 import { monthToSeason } from '@/queries/helpers';
 import SeasonSelector from '@/components/Partials/SeasonSelector.vue';
 import type { Season } from '@/queries/common-types';
+import SeasonInfo from '@/components/Partials/SeasonInfo.vue';
 
 const url = 'https://graphql.anilist.co';
 
@@ -90,6 +91,8 @@ await getData();
 <template>
 
     <SeasonSelector v-on:changed='seasonChanged'></SeasonSelector>
+
+    <SeasonInfo :year='year' :season='season'/>
 
     <div class="list" v-if="media.length > 0" ref="container">
         <template v-for="anime in media" :key="anime.id">

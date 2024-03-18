@@ -1,0 +1,14 @@
+query($season: MediaSeason, $year: Int) {
+    Page(page: 0, perPage: 10) {
+        media(type: ANIME, season: $season, seasonYear: $year, sort: START_DATE, format_in: [ONA, OVA, TV]) {
+            title {
+                romaji,
+                english
+            }
+            format
+            startDate {
+                year, month, day
+            }
+        }
+    },
+}

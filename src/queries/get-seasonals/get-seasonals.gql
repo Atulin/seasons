@@ -29,7 +29,8 @@ query($season: MediaSeason, $year: Int, $page: Int, $perPage: Int) {
             studios {
                 nodes {
                     name,
-                    siteUrl
+                    siteUrl,
+                    isAnimationStudio
                 }
             }
         }
