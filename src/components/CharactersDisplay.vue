@@ -6,6 +6,7 @@ import type { Character, PageInfo, QueryResult } from '@/queries/get-characters/
 import { onMounted, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
+import IconUp from '@/components/icons/IconUp.vue';
 
 dayjs.extend(relativeTime);
 
@@ -66,11 +67,15 @@ const getData = async (id: number, page: number) => {
     console.log(pagination.value)
 };
 
+const scrollDown = () => {
+    list.value?.scrollIntoView({ behavior: 'smooth' });
+}
+
 onMounted(async () => {
     do {
         await getData(id, pagination.value.currentPage + 1);
     } while (pagination.value.hasNextPage);
-    list.value?.scrollIntoView({ behavior: 'smooth' });
+    scrollDown();
 });
 
 
@@ -95,7 +100,7 @@ onMounted(async () => {
             :key="char.id"
         >
             <span class='index'>{{index + 1}}</span>
-            <img :src="char.image.medium" :alt="char.name.full" />
+            <img :src="char.image.medium" :alt="char.name.full" loading='lazy' />
             <div class="name">
                 <span class="first">{{ char.name.first }}</span>
                 <span class="middle" v-if="char.name.middle">{{ char.name.middle }}</span>
@@ -103,6 +108,10 @@ onMounted(async () => {
             </div>
         </a>
     </div>
+
+    <button class='down' @click='scrollDown'>
+        <IconUp />
+    </button>
 </template>
 
 <style scoped lang="scss">
@@ -129,16 +138,15 @@ $multiplier: 0.8;
 }
 
 #characters {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     gap: 0.25rem;
     padding-top: 0.25rem;
 
     .character {
         height: 150px;
-        width: 120px;
         position: relative;
+        content-visibility: auto;
         color: var(--color-text);
 
         &:hover {
@@ -188,6 +196,27 @@ $multiplier: 0.8;
             transition: opacity 150ms ease-in-out;
             text-shadow: 0 0 5px black, 0 0 2px black;
         }
+    }
+}
+
+button.down {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    opacity: .1;
+    transition: opacity ease-in-out 200ms;
+    cursor: pointer;
+
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: none;
+    border-radius: 8000px;
+
+    width: 40px;
+    aspect-ratio: 1 / 1;
+
+    &:hover {
+        opacity: .9;
     }
 }
 </style>
